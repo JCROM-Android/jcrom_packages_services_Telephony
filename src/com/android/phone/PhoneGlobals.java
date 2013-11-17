@@ -157,6 +157,8 @@ public class PhoneGlobals extends ContextWrapper implements WiredHeadsetListener
 
     private static PhoneGlobals sMe;
 
+    private static final String VOICE_CAPABLE_PROPERTY = "persist.sys.voice.capable";
+
     // A few important fields we expose to the rest of the package
     // directly (rather than thru set/get methods) for efficiency.
     CallController callController;
@@ -379,8 +381,9 @@ public class PhoneGlobals extends ContextWrapper implements WiredHeadsetListener
         // Cache the "voice capable" flag.
         // This flag currently comes from a resource (which is
         // overrideable on a per-product basis):
-        sVoiceCapable =
-                getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+        //sVoiceCapable =
+        //        getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+        sVoiceCapable = SystemProperties.getBoolean(VOICE_CAPABLE_PROPERTY, true);
         // ...but this might eventually become a PackageManager "system
         // feature" instead, in which case we'd do something like:
         // sVoiceCapable =

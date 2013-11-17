@@ -118,6 +118,8 @@ public class PhoneUtils {
     /** Noise suppression status as selected by user */
     private static boolean sIsNoiseSuppressionEnabled = true;
 
+    private static final String VOICE_CAPABLE_PROPERTY = "persist.sys.voice.capable";
+
     /**
      * Handler that tracks the connections and updates the value of the
      * Mute settings for each connection as needed.
@@ -2547,9 +2549,12 @@ public class PhoneUtils {
     private static boolean sVoipSupported = false;
     static {
         PhoneGlobals app = PhoneGlobals.getInstance();
+//        sVoipSupported = SipManager.isVoipSupported(app)
+//                && app.getResources().getBoolean(com.android.internal.R.bool.config_built_in_sip_phone)
+//                && app.getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
         sVoipSupported = SipManager.isVoipSupported(app)
                 && app.getResources().getBoolean(com.android.internal.R.bool.config_built_in_sip_phone)
-                && app.getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+                && SystemProperties.getBoolean(VOICE_CAPABLE_PROPERTY, true);
     }
 
     /**
