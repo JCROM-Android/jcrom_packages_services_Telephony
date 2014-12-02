@@ -47,6 +47,7 @@ public class CdmaOptions {
     private static final String BUTTON_CDMA_ACTIVATE_DEVICE_KEY = "cdma_activate_device_key";
     private static final String BUTTON_CARRIER_SETTINGS_KEY = "carrier_settings_key";
     private static final String BUTTON_APN_EXPAND_KEY = "button_apn_key";
+    private static final String VOICE_CAPABLE_PROPERTY = "persist.sys.voice.capable";
 
     private PreferenceActivity mPrefActivity;
     private PreferenceScreen mPrefScreen;
@@ -103,8 +104,9 @@ public class CdmaOptions {
                                 .findPreference(BUTTON_CDMA_SUBSCRIPTION_KEY));
         }
 
-        final boolean voiceCapable = mPrefActivity.getResources().getBoolean(
-                com.android.internal.R.bool.config_voice_capable);
+        //final boolean voiceCapable = mPrefActivity.getResources().getBoolean(
+        //        com.android.internal.R.bool.config_voice_capable);
+        final boolean voiceCapable = SystemProperties.getBoolean(VOICE_CAPABLE_PROPERTY, true);
         final boolean isLTE = mPhone.getLteOnCdmaMode() == PhoneConstants.LTE_ON_CDMA_TRUE;
         if (voiceCapable || isLTE) {
             // This option should not be available on voice-capable devices (i.e. regular phones)

@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
+import android.os.SystemProperties;
 import android.provider.Settings;
 import android.telecom.PhoneAccount;
 import android.telecom.PhoneAccountHandle;
@@ -41,16 +42,21 @@ public class SipUtil {
             "com.android.services.telephony.sip.incoming_call_intent";
     static final String EXTRA_PHONE_ACCOUNT =
             "com.android.services.telephony.sip.phone_account";
+    private static final String VOICE_CAPABLE_PROPERTY = "persist.sys.voice.capable";
 
     private SipUtil() {
     }
 
     public static boolean isVoipSupported(Context context) {
+        //return SipManager.isVoipSupported(context) &&
+        //        context.getResources().getBoolean(
+        //                com.android.internal.R.bool.config_built_in_sip_phone) &&
+        //        context.getResources().getBoolean(
+        //                com.android.internal.R.bool.config_voice_capable);
         return SipManager.isVoipSupported(context) &&
                 context.getResources().getBoolean(
                         com.android.internal.R.bool.config_built_in_sip_phone) &&
-                context.getResources().getBoolean(
-                        com.android.internal.R.bool.config_voice_capable);
+                SystemProperties.getBoolean(VOICE_CAPABLE_PROPERTY, true);
     }
 
     static PendingIntent createIncomingCallPendingIntent(
